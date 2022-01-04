@@ -9,7 +9,7 @@ Angua3 is a pipeline for the discovery of viruses from Illumina RNA sequencing. 
 3.  Assembly with Trinity
 4.  Contig filtering
 5.  Blastn on contigs >=200
-6.  Blastx on contigs >=1000
+6.  Blastx on contigs >=1000. Optionally cluster contigs beforehand to reduce blastx time.
 7.  Produce Megan outputs for blastn and blastx results
 
 **Setting up a Conda Environment**
@@ -50,7 +50,7 @@ Execute the above command from the `Angua` directory.
 **Future Features**
 -   Machine learning features (based off of tools such as ViraMiner and DeepVirFinder) to detect contigs that are most likely to be of viral origin, and inspecting these first with a more rigorous blastx search.
 -   Back mapping trimmed reads to filtered contigs, and then checking for viruses in any reads which did not map.
--   Priorty sample queueing i.e the ability to specific high priority samples to be analysed before lower priority samples.
+-   Priorty sample queueing i.e the ability to specify high priority samples to be analysed before lower priority samples.
 -   Contig polishing with Pilon.
 
 **Parameters**
@@ -61,12 +61,15 @@ usage: Angua3.py [-h] --input INPUT --output OUTPUT [--nr_db NR_DB]
                  [--nt_db NT_DB] [--megan_na2t MEGAN_NA2T]
                  [--megan_pa2t MEGAN_PA2T] [--create_dirs {Y,N}]
                  [--trimmer {sickle,bbduk,N}] [--trinity {Y,N}] [--sort {Y,N}]
-                 [--blastn {Y,N}] [--blastx {Y,N}] [--megan_blastn {Y,N}]
-                 [--megan_blastx {Y,N}] [--single_end {Y,N}]
-                 [--sickle_q SICKLE_Q] [--bbduk_adapters BBDUK_ADAPTERS]
-                 [--bbduk_q BBDUK_Q] [--trinity_cpu TRINITY_CPU]
-                 [--trinity_mem TRINITY_MEM] [--blastn_pool BLASTN_POOL]
-                 [--blastn_threads BLASTN_THREADS]
+                 [--cluster {Y,N}] [--blastn {Y,N}] [--blastx {Y,N}]
+                 [--megan_blastn {Y,N}] [--megan_blastx {Y,N}]
+                 [--unmapped_reads {Y,N}] [--single_end {Y,N}]
+                 [--sickle_q SICKLE_Q] [--sickle_minl SICKLE_MINL]
+                 [--bbduk_adapters BBDUK_ADAPTERS] [--bbduk_q BBDUK_Q]
+                 [--bbduk_minl BBDUK_MINL] [--trinity_cpu TRINITY_CPU]
+                 [--trinity_mem TRINITY_MEM] [--cluster_perc CLUSTER_PERC]
+                 [--cluster_threads CLUSTER_THREADS]
+                 [--blastn_pool BLASTN_POOL] [--blastn_threads BLASTN_THREADS]
                  [--blastn_descriptions BLASTN_DESCRIPTIONS]
                  [--blastn_alignments BLASTN_ALIGNMENTS]
                  [--blastx_threads BLASTX_THREADS]
@@ -90,25 +93,37 @@ optional arguments:
                         sickle/bbduk, trinity, blastx, blastn, contigs and
                         megan, including sub directories. Default Y.
   --trimmer {sickle,bbduk,N}
-                        Run trimming. Default sickle.
+                        Run trimming. Default bbduk.
   --trinity {Y,N}       Run trinity. Default Y.
   --sort {Y,N}          Sort contigs, based on length, into >=200 and >=1000.
                         Default Y.
+  --cluster {Y,N}       Clusters contigs >= 1000. Default Y.
   --blastn {Y,N}        Run blastn. Default Y.
   --blastx {Y,N}        Run blastx. Default Y.
   --megan_blastn {Y,N}  Run megan for blastn. Default Y.
   --megan_blastx {Y,N}  Run megan for blastx. Default Y.
+  --unmapped_reads {Y,N}
+                        Map trimmed reads back to contigs to identify unmapped
+                        reads. Default N.
   --single_end {Y,N}    Activate paired end mode. Expects file format
                         *_R1_001*. Default expected format for paired end is
                         *_L001_R1_001*,*_L001_R2_001*. Default N.
   --sickle_q SICKLE_Q   Sickle phred quality trim parameter. Default 10
+  --sickle_minl SICKLE_MINL
+                        Sickle minimum length. Default 75
   --bbduk_adapters BBDUK_ADAPTERS
                         Bbduk adapter references.
   --bbduk_q BBDUK_Q     Bbduk phred quality trim parameter. Default 10
+  --bbduk_minl BBDUK_MINL
+                        Bbduk minimum length. Default 75
   --trinity_cpu TRINITY_CPU
                         Trinity CPU parameter. Default 60.
   --trinity_mem TRINITY_MEM
                         Trinity max memory parameter. Default 200G
+  --cluster_perc CLUSTER_PERC
+                        What percentage identity to cluster at. Default 0.95.
+  --cluster_threads CLUSTER_THREADS
+                        Number of threads to run mmseq2 with. Default 60.
   --blastn_pool BLASTN_POOL
                         This is the maximum number of blastn processes allowed
                         in the pool at any one time. Default 8.
@@ -129,4 +144,5 @@ optional arguments:
   --megan_processes MEGAN_PROCESSES
                         This is the maximum number of megan processes allowed
                         in the pool at any one time. Default 2.
+
 ```
