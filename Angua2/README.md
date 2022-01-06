@@ -1,6 +1,6 @@
-**Angua Virus Pipeline**
+**Angua2 Virus Pipeline**
 
-**Note: This repository is no longering being suppoted. Please visit the Angua3 repo for the latest supported version of Angua https://fred.fera.co.uk/smcgreig/angua3)**
+**Note: This repository is no longering being suppoted. Please visit the Angua3 repo for the latest supported version of Angua https://github.com/SamMcGreig/Angua32)**
 
 Angua is a pipeline for the discovery of viruses from short read RNA data. The pipeline follows the steps outlined below.
 
