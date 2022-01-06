@@ -53,6 +53,14 @@ Execute the above command from the `Angua` directory.
 -   Priorty sample queueing i.e the ability to specify high priority samples to be analysed before lower priority samples.
 -   Contig polishing with Pilon.
 
+**Citation**
+
+If you are using Angua, please consider citing:
+
+Fowkes, A.R.; McGreig, S.; Pufal, H.; Duffy, S.; Howard, B.; Adams, I.P.; Macarthur, R.; Weekes, R.; Fox, A. Integrating High throughput Sequencing into Survey Design Reveals Turnip Yellows Virus and Soybean Dwarf Virus in Pea (Pisum Sativum) in the United Kingdom. Viruses 2021, 13, 2530. https://doi.org/10.3390/v13122530 
+
+https://www.mdpi.com/1999-4915/13/12/2530
+
 **Parameters**
 
 
