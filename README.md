@@ -22,7 +22,7 @@ Please activate the conda environment before running the scripts.
 
 Create a directory named `Angua`. Inside this, create a directory called `Scripts`. Copy the `Angua3.py` script into this directory. You can also place the `RNA_adapters.fasta` file in this location, if you like.
 
-Megan mapping files can be download from the MEGAN6 download page (http://ab.inf.uni-tuebingen.de/data/software/megan6/download/welcome.html). 
+Megan mapping files can be download from the MEGAN6 download page (https://software-ab.informatik.uni-tuebingen.de/download/megan6/welcome.html). 
 The files required will look something like:
 -   megan-map-Jul2020-2.db.zip `# needed for --megan_pa2t` 
 -   megan-nucl-Jul2020.db.zip  `# needed for --megan_na2t` 
