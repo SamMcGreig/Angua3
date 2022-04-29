@@ -8,7 +8,7 @@ from Bio import SeqIO
 def main():
 
 	# Angua3 script version
-	angua3_version = 2 # change to 3 when done
+	angua3_version = 3
 
 	### Input arguments
 	options = parseArguments()
